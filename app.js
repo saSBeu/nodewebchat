@@ -5,14 +5,12 @@ const socket = require('socket.io');
 
 // create express server
 const app = express();
-
+const port = process.env.PORT || 5000
 // serve static files in public folder
 app.use(express.static('public'));
 
 // start server annd listen on port
-var server = app.listen(5000, () => {
-    console.log(`Server started on PORT 5000`);
-});
+var server = app.listen(port);
 
 // use  server on PORT 5000 for socketIo  connections
 const io = socket(server);
@@ -22,7 +20,7 @@ const io = socket(server);
 // initialize empty array to store client connections
 //var connections = [];
 
-var usersOnline =0;
+var usersOnline = 0;
 var errmsg = 'Please enter your username/message';
 
 io.on('connection', (socket) => {
@@ -30,14 +28,14 @@ io.on('connection', (socket) => {
     /* connections.push(socket);
     console.clear();
     console.log(`${connections.length} user/s connected`); */
-    socket.emit('usersOnline', { usersOnline: usersOnline});
+    io.sockets.emit('usersOnline', { usersOnline: usersOnline});
 
     socket.on('disconnect', () => {
         usersOnline--;
         /* connections.splice(connections.indexOf(socket), 1);
         console.clear();
         console.log(`${connections.length} user(s) remaining`); */
-        socket.emit('usersOnline', { usersOnline: usersOnline });
+        io.sockets.emit('usersOnline', { usersOnline: usersOnline });
     });
 
     //get data from client and emit it to all clients

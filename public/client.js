@@ -1,5 +1,5 @@
 // make connection to server
-var socket = io.connect('http://localhost:5000');
+var socket = io.connect('https://desolate-beyond-91734.herokuapp.com/');
 
 // query DOM
 var message = document.getElementById('message');
@@ -41,6 +41,5 @@ socket.on('usersOnline', (data) => {
 })
 
 socket.on('exception', (data)=>{
-
     fielderror.innerHTML='<p>'+data.fielderr+'</p>';
 });
